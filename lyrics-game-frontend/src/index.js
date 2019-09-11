@@ -1,10 +1,22 @@
 const BASE_URL = "http://localhost:3000"
 const SONGS_URL = `${BASE_URL}/songs`
 const main = document.querySelector('main')
+const loginBtn = document.querySelector('#login')
+const loginContainer = document.querySelector('.login-container')
 const lyricsDiv = document.querySelector('.lyrics')
 const songNamesDiv = document.querySelector('.song-names')
 const scoreDiv = document.querySelector('.score')
 let songs;
+let loginForm = false;
+
+loginBtn.addEventListener('click', () => {
+    loginForm = !loginForm
+    if (loginForm) {
+        loginContainer.style.display = 'block';
+    } else {
+        loginContainer.style.display = 'none';
+    }
+})
 
 function getSongs() {
     fetch(SONGS_URL)
@@ -65,8 +77,7 @@ getSongs()
 // check for correct answer on click
 // show green if correct, red if incorrect
 // increment score if correct
-// regardless if correct/incorrect, load aopther lyrics question until 10 rounds complete
-// create user and game models
+// regardless if correct/incorrect, load another lyrics question until 10 rounds complete
 // fetch - create new score when game sarts (create)
 // fetch - get request for score (read)
 // fetch - patch request for score (update)
