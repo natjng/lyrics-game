@@ -5,6 +5,7 @@ const main = document.querySelector('main')
 const loginBtn = document.querySelector('#login')
 const loginContainer = document.querySelector('.login-container')
 const submitBtn = document.querySelector('.submit')
+const userDetails = document.querySelector('.user-details')
 const lyricsDiv = document.querySelector('.lyrics')
 const songNamesDiv = document.querySelector('.song-names')
 const scoreDiv = document.querySelector('.score')
@@ -38,7 +39,16 @@ function postUser(event) {
     }
     fetch(USERS_URL, configObj)
         .then(res => res.json())
-        .then(json => console.log(json))
+        .then(json => {
+            console.log(json)
+            renderUser(json)
+        })
+}
+
+function renderUser(user) {
+    let h3 = document.createElement('h3')
+    h3.innerText = `Welcome, ${user.username}!`
+    userDetails.append(h3) 
 }
 
 function getSongs() {
