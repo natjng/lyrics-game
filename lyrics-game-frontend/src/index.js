@@ -51,6 +51,13 @@ function renderUser(user) {
     let p = document.createElement('p')
     p.innerText = `Welcome, ${user.username}!`
     userDetails.append(p) 
+
+    if (user) {
+        let startBtn = document.createElement('button')
+        startBtn.id = 'startBtn'
+        startBtn.innerHTML = "Start Game!"
+        userDetails.append(startBtn)
+    }
 }
 
 function getSongs() {
@@ -116,7 +123,8 @@ getSongs()
 // fetch - create new score when game sarts (create)
 // fetch - get request for score (read)
 // fetch - patch request for score (update)
-// reventDefault
+// preventDefault
+// add serializers
 
 // show welcome / sign in page?
 // 'Start' game will getSongs(), postGame(), renderGameScore()
