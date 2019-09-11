@@ -41,14 +41,16 @@ function postUser(event) {
         .then(res => res.json())
         .then(json => {
             console.log(json)
-            renderUser(json)
+            renderUser(json);
+            loginContainer.style.display = 'none';
+            loginBtn.style.display = 'none';
         })
 }
 
 function renderUser(user) {
-    let h3 = document.createElement('h3')
-    h3.innerText = `Welcome, ${user.username}!`
-    userDetails.append(h3) 
+    let p = document.createElement('p')
+    p.innerText = `Welcome, ${user.username}!`
+    userDetails.append(p) 
 }
 
 function getSongs() {
@@ -117,4 +119,4 @@ getSongs()
 // reventDefault
 
 // show welcome / sign in page?
-// 'Start' game will getSongs()
+// 'Start' game will getSongs(), postGame(), renderGameScore()
