@@ -57,7 +57,20 @@ function renderUser(user) {
         startBtn.id = 'startBtn'
         startBtn.innerHTML = "Start Game!"
         userDetails.append(startBtn)
+
+        startBtn.addEventListener('click', (event) => {
+            // event.preventDefault();
+            console.log(event.target);
+            startBtn.style.display = "none";
+            startGame(user);
+        })
     }
+}
+
+function startGame(user) {
+    // 'Start' game will getSongs(), postGame(), renderGameScore()
+
+    getSongs()
 }
 
 function getSongs() {
@@ -112,7 +125,7 @@ function renderSongNames(song) {
     songNamesDiv.append(ul)
 }
 
-getSongs()
+
 
 
 // add event listeners
@@ -127,4 +140,3 @@ getSongs()
 // add serializers
 
 // show welcome / sign in page?
-// 'Start' game will getSongs(), postGame(), renderGameScore()
