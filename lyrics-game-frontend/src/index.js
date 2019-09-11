@@ -1,6 +1,7 @@
 const BASE_URL = "http://localhost:3000"
 const SONGS_URL = `${BASE_URL}/songs`
 const USERS_URL = `${BASE_URL}/users`
+const GAMES_URL = `${BASE_URL}/games`
 const main = document.querySelector('main')
 const loginBtn = document.querySelector('#login')
 const loginContainer = document.querySelector('.login-container')
@@ -9,8 +10,9 @@ const userDetails = document.querySelector('.user-details')
 const lyricsDiv = document.querySelector('.lyrics')
 const songNamesDiv = document.querySelector('.song-names')
 const scoreDiv = document.querySelector('.score')
-let songs;
 let loginForm = false;
+let songs;
+let score;
 
 loginBtn.addEventListener('click', () => {
     loginForm = !loginForm
@@ -70,7 +72,26 @@ function renderUser(user) {
 function startGame(user) {
     // 'Start' game will getSongs(), postGame(), renderGameScore()
 
-    getSongs()
+    getSongs();
+    postGame(user);
+}
+
+function postGame(user) {
+    let configObj = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: JSON.stringify({score: 0, user_id: user.id})
+    }
+    fetch(GAMES_URL, configObj)
+        .then(res => res.json())
+        .then(json => {
+            console.log(json)
+            score = json.score;
+            console.log(score)
+        })
 }
 
 function getSongs() {
