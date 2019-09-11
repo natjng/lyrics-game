@@ -1,8 +1,10 @@
 const BASE_URL = "http://localhost:3000"
 const SONGS_URL = `${BASE_URL}/songs`
+const USERS_URL = `${BASE_URL}/users`
 const main = document.querySelector('main')
 const loginBtn = document.querySelector('#login')
 const loginContainer = document.querySelector('.login-container')
+const submitBtn = document.querySelector('.submit')
 const lyricsDiv = document.querySelector('.lyrics')
 const songNamesDiv = document.querySelector('.song-names')
 const scoreDiv = document.querySelector('.score')
@@ -17,6 +19,27 @@ loginBtn.addEventListener('click', () => {
         loginContainer.style.display = 'none';
     }
 })
+
+loginContainer.addEventListener('submit', (event) => {
+    event.preventDefault();
+    console.log(event.target)
+    console.log(event.target.username.value)
+    postUser(event);
+})
+
+function postUser(event) {
+    let configObj = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: JSON.stringify({username: event.target.username.value})
+    }
+    fetch(USERS_URL, configObj)
+        .then(res => res.json())
+        .then(json => console.log(json))
+}
 
 function getSongs() {
     fetch(SONGS_URL)
