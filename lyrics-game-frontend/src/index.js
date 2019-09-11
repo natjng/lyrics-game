@@ -70,10 +70,8 @@ function renderUser(user) {
 }
 
 function startGame(user) {
-    // 'Start' game will getSongs(), postGame(), renderGameScore()
-
-    getSongs();
     postGame(user);
+    getSongs();
 }
 
 function postGame(user) {
@@ -87,11 +85,18 @@ function postGame(user) {
     }
     fetch(GAMES_URL, configObj)
         .then(res => res.json())
-        .then(json => {
-            console.log(json)
-            score = json.score;
+        .then(game => {
+            console.log(game)
+            score = game.score;
             console.log(score)
+            renderGameScore(game);
         })
+}
+
+function renderGameScore(game) {
+    let h2 = document.createElement('h2')
+    h2.innerHTML = `Score: ${game.score}/10`
+    scoreDiv.append(h2)
 }
 
 function getSongs() {
