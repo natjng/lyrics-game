@@ -111,8 +111,9 @@ function getSongs() {
         .then(json => {
             console.log(json);
             songs = json
-            renderLyrics(songs[songCounter])
-
+            if (songCounter < 10) {
+                renderLyrics(songs[songCounter])
+            }
             // render random song
             // n = Math.floor(Math.random()*songs.length)
             // console.log(`n = ${n} song lyrics`)
