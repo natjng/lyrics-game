@@ -13,4 +13,10 @@ class GamesController < ApplicationController
         game = Game.create(score: params[:score], user_id: params[:user_id])
         render json: game
     end
+
+    def update
+        game = Game.find_by(id: params[:id])
+        game.update(score: params[:score])
+        render json: game
+    end
 end
