@@ -111,9 +111,9 @@ function getSongs() {
         .then(json => {
             console.log(json);
             songs = json
-            if (songCounter < 10) {
+            if (songCounter < 11) {
                 renderLyrics(songs[songCounter])
-            }
+            } 
             // render random song
             // n = Math.floor(Math.random()*songs.length)
             // console.log(`n = ${n} song lyrics`)
@@ -124,6 +124,9 @@ function getSongs() {
 function renderLyrics(song) {
     lyricsDiv.innerHTML = `<h2>🎵${song.lyrics} 🎶</h2>`
     renderSongNames(song)
+    // song count keeps jumping
+    songCounter += 1;
+    console.log(`curent song count: ${songCounter}`)
 }
 
 function renderSongNames(song) {
@@ -152,21 +155,20 @@ function renderSongNames(song) {
     console.log("inside renderSongNames()");
     console.log(`answer: ${song.name}`);
 
-    // songNamesDiv.append(optionsDiv)
     songNamesDiv.addEventListener('click', (event) => {
         console.log(`Selected song id: ${event.target.dataset.songId}`);
         console.log(`Correct song id: ${song.id}`);
         if (parseInt(event.target.dataset.songId, 10) === song.id) {
             console.log('correct');
+            // songCounter += 1
+            // console.log(`curent song count: ${songCounter}`)
             updateGameScore(currentGame)
-            songCounter += 1
-            console.log(`curent song count: ${songCounter}`)
             renderLyrics(songs[songCounter])
             // make div green, display Correct!
         } else {
             console.log('wrong');
-            songCounter += 1
-            console.log(`curent song count: ${songCounter}`)
+            // songCounter += 1
+            // console.log(`curent song count: ${songCounter}`)
             renderLyrics(songs[songCounter])
             // make div red, display Nope.
         }
@@ -177,7 +179,7 @@ function updateGameScore(currentGame) {
     console.log(`Current game id from inside updateGameScore(): ${currentGame.id}`);
     console.log(`Score before patch request: ${currentGame.score}`);
 
-    let newScore = currentGame.score + 1
+    let newScore = currentGame.score += 1
     
     let configObj = {
         method: "PATCH",
