@@ -3,6 +3,7 @@ const SONGS_URL = `${BASE_URL}/songs`
 const USERS_URL = `${BASE_URL}/users`
 const GAMES_URL = `${BASE_URL}/games`
 const main = document.querySelector('main')
+const welcome = document.querySelector('.welcome')
 const loginBtn = document.querySelector('#login')
 const loginContainer = document.querySelector('.login-container')
 const submitBtn = document.querySelector('.submit')
@@ -20,7 +21,7 @@ loginBtn.addEventListener('click', () => {
     loginForm = !loginForm
     if (loginForm) {
         loginContainer.style.display = 'block';
-        loginBtn.style.display = 'none';
+        welcome.style.display = 'none';
     } else {
         loginContainer.style.display = 'none';
     }
@@ -48,7 +49,7 @@ function postUser(event) {
             console.log(json)
             renderUser(json);
             loginContainer.style.display = 'none';
-            loginBtn.style.display = 'none';
+            welcome.style.display = 'none';
         })
 }
 
@@ -162,7 +163,6 @@ function renderSongNames(song) {
 // show green if correct, red if incorrect
 // increment score if correct
 // regardless if correct/incorrect, load another lyrics question until 10 rounds complete
-// fetch - create new score when game sarts (create)
 // fetch - get request for score (read)
 // fetch - patch request for score (update)
 // preventDefault
