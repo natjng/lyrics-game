@@ -92,7 +92,7 @@ function postGame(user) {
         .then(game => {
             console.log(game)
             score = game.score;
-            console.log(score)
+            console.log(`Score: ${score}`)
             renderGameScore(game);
         })
 }
@@ -153,6 +153,15 @@ function renderSongNames(song) {
     `
 
     songNamesDiv.append(ul)
+    ul.addEventListener('click', (event) => {
+        console.log(`Selected song id: ${event.target.dataset.songId}`);
+        console.log(`Correct song id: ${song.id}`);
+        if (parseInt(event.target.dataset.songId, 10) === song.id) {
+            console.log('correct');
+        } else {
+            console.log('wrong');
+        }
+    })
 }
 
 
@@ -164,8 +173,6 @@ function renderSongNames(song) {
 // increment score if correct
 // regardless if correct/incorrect, load another lyrics question until 10 rounds complete
 // fetch - get request for score (read)
-// fetch - patch request for score (update)
+// fetch - patch request for score (update) updateGameScore()
 // preventDefault
 // add serializers
-
-// show welcome / sign in page?
