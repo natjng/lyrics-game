@@ -32,8 +32,6 @@ loginBtn.addEventListener('click', () => {
 
 loginContainer.addEventListener('submit', (event) => {
     event.preventDefault();
-    console.log(event.target)
-    console.log(event.target.username.value)
     postUser(event);
 })
 
@@ -49,7 +47,6 @@ function postUser(event) {
     fetch(USERS_URL, configObj)
         .then(res => res.json())
         .then(json => {
-            console.log(json)
             renderUser(json);
             loginContainer.style.display = 'none';
             welcome.style.display = 'none';
@@ -67,9 +64,10 @@ function renderUser(user) {
         startBtn.innerHTML = "Start Game!"
         userDetails.append(startBtn)
 
+        // move event listener outside fn
         startBtn.addEventListener('click', (event) => {
             // event.preventDefault();
-            console.log(event.target);
+            //console.log(event.target);
             startBtn.style.display = "none";
             startGame(user);
         })
@@ -93,10 +91,9 @@ function postGame(user) {
     fetch(GAMES_URL, configObj)
         .then(res => res.json())
         .then(game => {
-            console.log(game)
+            console.log("Game", game)
             currentGame = game;
             score = game.score;
-            console.log(`Score: ${score}`)
             renderGameScore(currentGame);
         })
 }
@@ -109,11 +106,23 @@ function getSongs() {
     fetch(SONGS_URL)
         .then(res => res.json())
         .then(json => {
-            console.log(json);
+            //console.log(json);
             songs = json
             if (songCounter < 11) {
                 renderLyrics(songs[songCounter])
-            } 
+            } else {
+                // not working
+                let newGameBtn = document.createElement('button')
+                newGameBtn.id = 'newGameBtn'
+                newGameBtn.innerHTML = "Start a New Game!"
+                lyricsDiv.append(newGameBtn)
+
+                newGameBtn.addEventListener('click', (event) => {
+                    console.log(event.target);
+                    newGameBtn.style.display = "none";
+                    startGame(user);
+                })
+            }
             // render random song
             // n = Math.floor(Math.random()*songs.length)
             // console.log(`n = ${n} song lyrics`)
@@ -124,15 +133,13 @@ function getSongs() {
 function renderLyrics(song) {
     lyricsDiv.innerHTML = `<h2>🎵${song.lyrics} 🎶</h2>`
     renderSongNames(song)
-    // song count keeps jumping
+    console.log(songCounter, "before increase")
     songCounter += 1;
-    console.log(`curent song count: ${songCounter}`)
+    console.log("curent song count", songCounter)
+    currentSong = song;
 }
 
 function renderSongNames(song) {
-    // let optionsDiv = document.createElement('div')
-    // optionsDiv.setAttribute('class', 'options')
-
     // n = Math.floor(Math.random()*songs.length)
     // console.log(`n = ${n} inside renderSongNames()`)
 
@@ -143,7 +150,7 @@ function renderSongNames(song) {
     // add to array
     
     let randomSongs = [songs[Math.floor(Math.random()*songs.length)], songs[Math.floor(Math.random()*songs.length)], songs[Math.floor(Math.random()*songs.length)]]
-    console.log(randomSongs)
+    //console.log(randomSongs)
 
     songNamesDiv.innerHTML = `
         <div id="option-a" class ="option-choice" data-song-id=${randomSongs[0].id}>${randomSongs[0].name}</div><br>
@@ -151,33 +158,31 @@ function renderSongNames(song) {
         <div id="option-c" class ="option-choice" data-song-id=${randomSongs[2].id}>${randomSongs[2].name}</div><br>
         <div id="option-d" class ="option-choice" data-song-id=${song.id}>${song.name}</div><br>
         `
-
-    console.log("inside renderSongNames()");
-    console.log(`answer: ${song.name}`);
-
-    songNamesDiv.addEventListener('click', (event) => {
-        console.log(`Selected song id: ${event.target.dataset.songId}`);
-        console.log(`Correct song id: ${song.id}`);
-        if (parseInt(event.target.dataset.songId, 10) === song.id) {
-            console.log('correct');
-            // songCounter += 1
-            // console.log(`curent song count: ${songCounter}`)
-            updateGameScore(currentGame)
-            renderLyrics(songs[songCounter])
-            // make div green, display Correct!
-        } else {
-            console.log('wrong');
-            // songCounter += 1
-            // console.log(`curent song count: ${songCounter}`)
-            renderLyrics(songs[songCounter])
-            // make div red, display Nope.
-        }
-    })
+    //console.log(`answer: ${song.name}`);
 }
 
+songNamesDiv.addEventListener('click', (event) => {
+    // console.log(event)
+    //console.log(`Selected song id: ${event.target.dataset.songId}`);
+    //console.log(`Correct song id: ${song.id}`);
+    if (parseInt(event.target.dataset.songId, 10) === currentSong.id) {
+        //console.log('correct');
+        // songCounter += 1
+        // console.log(`curent song count: ${songCounter}`)
+        updateGameScore(currentGame)
+        renderLyrics(songs[songCounter])
+        // make div green, display Correct!
+    } else {
+        //console.log('wrong');
+        // songCounter += 1
+        // console.log(`curent song count: ${songCounter}`)
+        renderLyrics(songs[songCounter])
+        // make div red, display Nope.
+    }
+})
+
 function updateGameScore(currentGame) {
-    console.log(`Current game id from inside updateGameScore(): ${currentGame.id}`);
-    console.log(`Score before patch request: ${currentGame.score}`);
+    // console.log(`Score before patch request: ${currentGame.score}`);
 
     let newScore = currentGame.score += 1
     
@@ -198,9 +203,15 @@ function updateGameScore(currentGame) {
 }
 
 
-// regardless if correct/incorrect, load another lyrics question until 10 rounds complete
-// preventDefault
-// add serializers
-
 // songs = array of 10 songs
 // songs.indexOf(currentSong)
+
+// 10 rounds
+// need to randomize lyrics and names
+// cant repeat lyrics or names
+// save game score in variable
+// patch request game score after game ends
+// add serializers
+
+// getSongs() when js loads
+// startGame > 10 random lyrics > renderLyrics
