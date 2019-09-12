@@ -14,6 +14,8 @@ const scoreDiv = document.querySelector('.score')
 let loginForm = false;
 let currentGame;
 let songs;
+let songCounter = 0;
+let currentSong;
 let score;
 
 loginContainer.style.display = 'none';
@@ -109,33 +111,26 @@ function getSongs() {
         .then(json => {
             console.log(json);
             songs = json
-
-            // render all songs
-            // songs.forEach(song => {
-            //     renderSong(song)
-            // });
+            renderLyrics(songs[songCounter])
 
             // render random song
-            n = Math.floor(Math.random()*songs.length)
-            console.log(`n = ${n} song lyrics`)
-            renderLyrics(songs[n])
+            // n = Math.floor(Math.random()*songs.length)
+            // console.log(`n = ${n} song lyrics`)
+            // renderLyrics(songs[n])
         })
 }
 
 function renderLyrics(song) {
-    // lyricsDiv.dataset.id = song.id
-    let h2 = document.createElement('h2')
-    h2.innerText = `🎵${song.lyrics} 🎶`
-    lyricsDiv.append(h2)
+    lyricsDiv.innerHTML = `<h2>🎵${song.lyrics} 🎶</h2>`
     renderSongNames(song)
 }
 
 function renderSongNames(song) {
-    let optionsDiv = document.createElement('div')
-    optionsDiv.setAttribute('class', 'options')
+    // let optionsDiv = document.createElement('div')
+    // optionsDiv.setAttribute('class', 'options')
 
-    n = Math.floor(Math.random()*songs.length)
-    console.log(`n = ${n} inside renderSongNames()`)
+    // n = Math.floor(Math.random()*songs.length)
+    // console.log(`n = ${n} inside renderSongNames()`)
 
     // need to exclude song name with lyrics already shown
     // put lyrics's song in array
@@ -146,28 +141,32 @@ function renderSongNames(song) {
     let randomSongs = [songs[Math.floor(Math.random()*songs.length)], songs[Math.floor(Math.random()*songs.length)], songs[Math.floor(Math.random()*songs.length)]]
     console.log(randomSongs)
 
-    randomSongs.forEach(song => {
-        optionsDiv.innerHTML += `
-        <div class ="option-choice" data-song-id=${song.id}>${song.name}</div>
+    songNamesDiv.innerHTML = `
+        <div id="option-a" class ="option-choice" data-song-id=${randomSongs[0].id}>${randomSongs[0].name}</div><br>
+        <div id="option-b" class ="option-choice" data-song-id=${randomSongs[1].id}>${randomSongs[1].name}</div><br>
+        <div id="option-c" class ="option-choice" data-song-id=${randomSongs[2].id}>${randomSongs[2].name}</div><br>
+        <div id="option-d" class ="option-choice" data-song-id=${song.id}>${song.name}</div><br>
         `
-    })
 
     console.log("inside renderSongNames()");
     console.log(`answer: ${song.name}`);
-    optionsDiv.innerHTML += `
-    <div class ="option-choice" data-song-id=${song.id}>${song.name}</div>
-    `
 
-    songNamesDiv.append(optionsDiv)
-    optionsDiv.addEventListener('click', (event) => {
+    // songNamesDiv.append(optionsDiv)
+    songNamesDiv.addEventListener('click', (event) => {
         console.log(`Selected song id: ${event.target.dataset.songId}`);
         console.log(`Correct song id: ${song.id}`);
         if (parseInt(event.target.dataset.songId, 10) === song.id) {
             console.log('correct');
             updateGameScore(currentGame)
+            songCounter += 1
+            console.log(`curent song count: ${songCounter}`)
+            renderLyrics(songs[songCounter])
             // make div green, display Correct!
         } else {
             console.log('wrong');
+            songCounter += 1
+            console.log(`curent song count: ${songCounter}`)
+            renderLyrics(songs[songCounter])
             // make div red, display Nope.
         }
     })
@@ -196,7 +195,9 @@ function updateGameScore(currentGame) {
 }
 
 
-// add event listeners
 // regardless if correct/incorrect, load another lyrics question until 10 rounds complete
 // preventDefault
 // add serializers
+
+// songs = array of 10 songs
+// songs.indexOf(currentSong)
