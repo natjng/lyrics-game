@@ -14,10 +14,13 @@ let loginForm = false;
 let songs;
 let score;
 
+loginContainer.style.display = 'none';
+
 loginBtn.addEventListener('click', () => {
     loginForm = !loginForm
     if (loginForm) {
         loginContainer.style.display = 'block';
+        loginBtn.style.display = 'none';
     } else {
         loginContainer.style.display = 'none';
     }
