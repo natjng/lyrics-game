@@ -12,6 +12,7 @@ const lyricsDiv = document.querySelector('.lyrics')
 const songNamesDiv = document.querySelector('.song-names')
 const scoreDiv = document.querySelector('.score')
 let loginForm = false;
+let currentGame;
 let songs;
 let score;
 
@@ -91,16 +92,15 @@ function postGame(user) {
         .then(res => res.json())
         .then(game => {
             console.log(game)
+            currentGame = game;
             score = game.score;
             console.log(`Score: ${score}`)
-            renderGameScore(game);
+            renderGameScore(currentGame);
         })
 }
 
-function renderGameScore(game) {
-    let h2 = document.createElement('h2')
-    h2.innerHTML = `Score: ${game.score}/10`
-    scoreDiv.append(h2)
+function renderGameScore(currentGame) {
+    scoreDiv.innerHTML = `<h2>Score: ${currentGame.score}/10</h2>`
 }
 
 function getSongs() {
@@ -131,48 +131,72 @@ function renderLyrics(song) {
 }
 
 function renderSongNames(song) {
-    let ul = document.createElement('ul')
+    let optionsDiv = document.createElement('div')
+    optionsDiv.setAttribute('class', 'options')
 
     n = Math.floor(Math.random()*songs.length)
     console.log(`n = ${n} inside renderSongNames()`)
 
     // need to exclude song name with lyrics already shown
+    // put lyrics's song in array
+    // get 3 songs
+    // exclude if song.id already in array
+    // add to array
+    
     let randomSongs = [songs[Math.floor(Math.random()*songs.length)], songs[Math.floor(Math.random()*songs.length)], songs[Math.floor(Math.random()*songs.length)]]
     console.log(randomSongs)
 
     randomSongs.forEach(song => {
-        ul.innerHTML += `
-        <p data-song-id=${song.id}>${song.name}</p>
+        optionsDiv.innerHTML += `
+        <div class ="option-choice" data-song-id=${song.id}>${song.name}</div>
         `
     })
 
     console.log("inside renderSongNames()");
     console.log(`answer: ${song.name}`);
-    ul.innerHTML += `
-    <p data-song-id=${song.id}>${song.name}</p>
+    optionsDiv.innerHTML += `
+    <div class ="option-choice" data-song-id=${song.id}>${song.name}</div>
     `
 
-    songNamesDiv.append(ul)
-    ul.addEventListener('click', (event) => {
+    songNamesDiv.append(optionsDiv)
+    optionsDiv.addEventListener('click', (event) => {
         console.log(`Selected song id: ${event.target.dataset.songId}`);
         console.log(`Correct song id: ${song.id}`);
         if (parseInt(event.target.dataset.songId, 10) === song.id) {
             console.log('correct');
+            updateGameScore(currentGame)
+            // make div green, display Correct!
         } else {
             console.log('wrong');
+            // make div red, display Nope.
         }
     })
 }
 
+function updateGameScore(currentGame) {
+    console.log(`Current game id from inside updateGameScore(): ${currentGame.id}`);
+    console.log(`Score before patch request: ${currentGame.score}`);
 
+    let newScore = currentGame.score + 1
+    
+    let configObj = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({score: newScore})
+    }
+    fetch(`${GAMES_URL}/${currentGame.id}`, configObj)
+        .then(res => res.json())
+        .then(updatedGame => {
+            console.log(`Score after patch request: ${updatedGame.score}`);
+            renderGameScore(updatedGame);
+        })
+}
 
 
 // add event listeners
-// check for correct answer on click
-// show green if correct, red if incorrect
-// increment score if correct
 // regardless if correct/incorrect, load another lyrics question until 10 rounds complete
-// fetch - get request for score (read)
-// fetch - patch request for score (update) updateGameScore()
 // preventDefault
 // add serializers
