@@ -68,6 +68,7 @@ function renderUser(user) {
 
 startBtn.addEventListener('click', (event) => {
     gameControl.style.display = "none";
+    gameContainer.style.display = "block";
     startGame(currentUser);
 })
 
@@ -102,19 +103,7 @@ function renderGameScore(currentGame) {
 
 function startGame(user) {
     postGame(user);
-
-    // while (songCounter < 11) {
-    //     renderLyrics(songs[songCounter])
-    // }
-    if (songCounter > 10) {
-        gameContainer.style.display = "none";
-    } else {
-        renderLyrics(songs[songCounter])
-    }
-
-    // songs array
-    // render lyrics for each song
-    // after last song, end game
+    renderLyrics(songs[songCounter])
 }
 
 function renderLyrics(song) {
@@ -153,13 +142,25 @@ songNamesDiv.addEventListener('click', (event) => {
     if (parseInt(event.target.dataset.songId, 10) === currentSong.id) {
         //console.log('correct');
         updateGameScore(currentGame)
-        renderLyrics(songs[songCounter])
+        if (songCounter === 10) {
+            gameContainer.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p><h3>Score: ${currentGame.score}</h3>`;
+            gameControl.style.display = "block";
+        } else {
+            renderLyrics(songs[songCounter])
+        }
+        // renderLyrics(songs[songCounter])
         // make div green, display Correct!
     } else {
         //console.log('wrong');
         // console.log(event.target.style);
         // event.target.style.borderColor = "#8B0000"
-        renderLyrics(songs[songCounter])
+        if (songCounter === 10) {
+            gameContainer.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p><h3>Score: ${currentGame.score}</h3>`;
+            gameControl.style.display = "block";
+        } else {
+            renderLyrics(songs[songCounter])
+        }
+        // renderLyrics(songs[songCounter])
         // make div red, display Nope.
     }
 })
