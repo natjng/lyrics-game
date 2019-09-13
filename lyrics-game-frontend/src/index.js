@@ -66,9 +66,7 @@ function renderUser(user) {
 }
 
 startBtn.addEventListener('click', (event) => {
-    // event.preventDefault();
-    //console.log(event.target);
-    startBtn.style.display = "none";
+    gameControl.style.display = "none";
     startGame(currentUser);
 })
 
