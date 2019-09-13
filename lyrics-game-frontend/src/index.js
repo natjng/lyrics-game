@@ -8,17 +8,21 @@ const loginBtn = document.querySelector('#login')
 const loginContainer = document.querySelector('.login-container')
 const submitBtn = document.querySelector('.submit')
 const userDetails = document.querySelector('.user-details')
+const gameControl = document.querySelector('.game-control')
+const startBtn = document.querySelector('#startBtn')
 const lyricsDiv = document.querySelector('.lyrics')
 const songNamesDiv = document.querySelector('.song-names')
 const scoreDiv = document.querySelector('.score')
 let loginForm = false;
+let currentUser;
 let currentGame;
 let songs;
 let songCounter = 0;
 let currentSong;
 let score;
 
-loginContainer.style.display = 'none';
+// loginContainer.style.display = 'none';
+gameControl.style.display = "none";
 
 loginBtn.addEventListener('click', () => {
     loginForm = !loginForm
@@ -47,7 +51,8 @@ function postUser(event) {
     fetch(USERS_URL, configObj)
         .then(res => res.json())
         .then(json => {
-            renderUser(json);
+            currentUser = json;
+            renderUser(currentUser);
             loginContainer.style.display = 'none';
             welcome.style.display = 'none';
         })
@@ -57,26 +62,43 @@ function renderUser(user) {
     let p = document.createElement('p')
     p.innerText = `Welcome, ${user.username}!`
     userDetails.append(p) 
+    gameControl.style.display = "block";
+}
 
-    if (user) {
-        let startBtn = document.createElement('button')
-        startBtn.id = 'startBtn'
-        startBtn.innerHTML = "Start Game!"
-        userDetails.append(startBtn)
+startBtn.addEventListener('click', (event) => {
+    // event.preventDefault();
+    //console.log(event.target);
+    startBtn.style.display = "none";
+    startGame(currentUser);
+})
 
-        // move event listener outside fn
-        startBtn.addEventListener('click', (event) => {
-            // event.preventDefault();
-            //console.log(event.target);
-            startBtn.style.display = "none";
-            startGame(user);
+function getSongs() {
+    fetch(SONGS_URL)
+        .then(res => res.json())
+        .then(json => {
+            //console.log(json);
+            songs = json
         })
-    }
 }
 
 function startGame(user) {
     postGame(user);
-    getSongs();
+
+    if (songCounter < 11) {
+        renderLyrics(songs[songCounter])
+    } else {
+        // not working
+        let newGameBtn = document.createElement('button')
+        newGameBtn.id = 'newGameBtn'
+        newGameBtn.innerHTML = "Start a New Game!"
+        lyricsDiv.append(newGameBtn)
+
+        newGameBtn.addEventListener('click', (event) => {
+            console.log(event.target);
+            newGameBtn.style.display = "none";
+            startGame(user);
+        })
+    }
 }
 
 function postGame(user) {
@@ -100,34 +122,6 @@ function postGame(user) {
 
 function renderGameScore(currentGame) {
     scoreDiv.innerHTML = `<h2>Score: ${currentGame.score}/10</h2>`
-}
-
-function getSongs() {
-    fetch(SONGS_URL)
-        .then(res => res.json())
-        .then(json => {
-            //console.log(json);
-            songs = json
-            if (songCounter < 11) {
-                renderLyrics(songs[songCounter])
-            } else {
-                // not working
-                let newGameBtn = document.createElement('button')
-                newGameBtn.id = 'newGameBtn'
-                newGameBtn.innerHTML = "Start a New Game!"
-                lyricsDiv.append(newGameBtn)
-
-                newGameBtn.addEventListener('click', (event) => {
-                    console.log(event.target);
-                    newGameBtn.style.display = "none";
-                    startGame(user);
-                })
-            }
-            // render random song
-            // n = Math.floor(Math.random()*songs.length)
-            // console.log(`n = ${n} song lyrics`)
-            // renderLyrics(songs[n])
-        })
 }
 
 function renderLyrics(song) {
@@ -163,19 +157,15 @@ function renderSongNames(song) {
 
 songNamesDiv.addEventListener('click', (event) => {
     // console.log(event)
-    //console.log(`Selected song id: ${event.target.dataset.songId}`);
-    //console.log(`Correct song id: ${song.id}`);
     if (parseInt(event.target.dataset.songId, 10) === currentSong.id) {
         //console.log('correct');
-        // songCounter += 1
-        // console.log(`curent song count: ${songCounter}`)
         updateGameScore(currentGame)
         renderLyrics(songs[songCounter])
         // make div green, display Correct!
     } else {
         //console.log('wrong');
-        // songCounter += 1
-        // console.log(`curent song count: ${songCounter}`)
+        // console.log(event.target.style);
+        // event.target.style.borderColor = "#8B0000"
         renderLyrics(songs[songCounter])
         // make div red, display Nope.
     }
@@ -202,9 +192,14 @@ function updateGameScore(currentGame) {
         })
 }
 
+getSongs();
 
 // songs = array of 10 songs
 // songs.indexOf(currentSong)
+// render random song
+// n = Math.floor(Math.random()*songs.length)
+// console.log(`n = ${n} song lyrics`)
+// renderLyrics(songs[n])
 
 // 10 rounds
 // need to randomize lyrics and names
@@ -215,3 +210,10 @@ function updateGameScore(currentGame) {
 
 // getSongs() when js loads
 // startGame > 10 random lyrics > renderLyrics
+
+// let interval = setInterval(renderLyrics, 5000);
+// if (songCounter ===  10) {
+//      alert("GAME OVER");
+//      document.location.reload();
+//      clearInterval(interval);
+// }
