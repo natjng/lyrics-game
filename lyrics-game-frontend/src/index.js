@@ -10,6 +10,7 @@ const submitBtn = document.querySelector('.submit')
 const userDetails = document.querySelector('.user-details')
 const gameControl = document.querySelector('.game-control')
 const startBtn = document.querySelector('#startBtn')
+const gameContainer = document.querySelector('.game-container')
 const lyricsDiv = document.querySelector('.lyrics')
 const songNamesDiv = document.querySelector('.song-names')
 const scoreDiv = document.querySelector('.score')
@@ -73,30 +74,7 @@ startBtn.addEventListener('click', (event) => {
 function getSongs() {
     fetch(SONGS_URL)
         .then(res => res.json())
-        .then(json => {
-            //console.log(json);
-            songs = json
-        })
-}
-
-function startGame(user) {
-    postGame(user);
-
-    if (songCounter < 11) {
-        renderLyrics(songs[songCounter])
-    } else {
-        // not working
-        let newGameBtn = document.createElement('button')
-        newGameBtn.id = 'newGameBtn'
-        newGameBtn.innerHTML = "Start a New Game!"
-        lyricsDiv.append(newGameBtn)
-
-        newGameBtn.addEventListener('click', (event) => {
-            console.log(event.target);
-            newGameBtn.style.display = "none";
-            startGame(user);
-        })
-    }
+        .then(json => { songs = json })
 }
 
 function postGame(user) {
@@ -120,6 +98,23 @@ function postGame(user) {
 
 function renderGameScore(currentGame) {
     scoreDiv.innerHTML = `<h2>Score: ${currentGame.score}/10</h2>`
+}
+
+function startGame(user) {
+    postGame(user);
+
+    // while (songCounter < 11) {
+    //     renderLyrics(songs[songCounter])
+    // }
+    if (songCounter > 10) {
+        gameContainer.style.display = "none";
+    } else {
+        renderLyrics(songs[songCounter])
+    }
+
+    // songs array
+    // render lyrics for each song
+    // after last song, end game
 }
 
 function renderLyrics(song) {
