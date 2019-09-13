@@ -133,10 +133,10 @@ function renderSongNames(song) {
     //console.log(randomSongs)
 
     songNamesDiv.innerHTML = `
-        <div id="option-a" class ="option-choice" data-song-id=${randomSongs[0].id}>${randomSongs[0].name}</div><br>
-        <div id="option-b" class ="option-choice" data-song-id=${randomSongs[1].id}>${randomSongs[1].name}</div><br>
-        <div id="option-c" class ="option-choice" data-song-id=${randomSongs[2].id}>${randomSongs[2].name}</div><br>
-        <div id="option-d" class ="option-choice" data-song-id=${song.id}>${song.name}</div><br>
+        <div id="option-a" class ="hvr-grow" data-song-id=${randomSongs[0].id}>${randomSongs[0].name}</div><br>
+        <div id="option-b" class ="hvr-grow" data-song-id=${randomSongs[1].id}>${randomSongs[1].name}</div><br>
+        <div id="option-c" class ="hvr-grow" data-song-id=${randomSongs[2].id}>${randomSongs[2].name}</div><br>
+        <div id="option-d" class ="hvr-grow" data-song-id=${song.id}>${song.name}</div><br>
         `
     //console.log(`answer: ${song.name}`);
 }
@@ -144,7 +144,7 @@ function renderSongNames(song) {
 songNamesDiv.addEventListener('click', (event) => {
     let selectedDiv = event.target
     if (parseInt(selectedDiv.dataset.songId, 10) === currentSong.id) {
-        selectedDiv.innerText = "YAS"
+        selectedDiv.innerText = "🎉YAS"
         selectedDiv.style.backgroundColor = "#61c984"
         updateGameScore(currentGame)
         if (songCounter === 10) {
@@ -212,4 +212,11 @@ getSongs();
 //      alert("GAME OVER");
 //      document.location.reload();
 //      clearInterval(interval);
+// }
+
+// endGame(currentGame) {
+//     lyricsDiv.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p>`;
+//             songNamesDiv.innerHTML = ''
+//             gameControl.style.display = "block";
+//             updateGameScore(currentGame) <-- need to update rest of logic to only render optimistically
 // }
