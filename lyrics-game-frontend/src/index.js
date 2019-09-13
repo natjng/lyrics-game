@@ -143,7 +143,8 @@ songNamesDiv.addEventListener('click', (event) => {
         //console.log('correct');
         updateGameScore(currentGame)
         if (songCounter === 10) {
-            gameContainer.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p><h3>Score: ${currentGame.score}</h3>`;
+            lyricsDiv.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p>`;
+            songNamesDiv.innerHTML = ''
             gameControl.style.display = "block";
         } else {
             renderLyrics(songs[songCounter])
@@ -155,7 +156,8 @@ songNamesDiv.addEventListener('click', (event) => {
         // console.log(event.target.style);
         // event.target.style.borderColor = "#8B0000"
         if (songCounter === 10) {
-            gameContainer.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p><h3>Score: ${currentGame.score}</h3>`;
+            lyricsDiv.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p>`;
+            songNamesDiv.innerHTML = ''
             gameControl.style.display = "block";
         } else {
             renderLyrics(songs[songCounter])
