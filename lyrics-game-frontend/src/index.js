@@ -126,6 +126,9 @@ function renderSongNames(song) {
     // exclude if song.id already in array
     // add to array
     
+    let songOptions = songs 
+    //select one song, then take it out of song options, and then randomly select a song again 
+    //use filter 
     let randomSongs = [songs[Math.floor(Math.random()*songs.length)], songs[Math.floor(Math.random()*songs.length)], songs[Math.floor(Math.random()*songs.length)]]
     //console.log(randomSongs)
 
@@ -139,32 +142,28 @@ function renderSongNames(song) {
 }
 
 songNamesDiv.addEventListener('click', (event) => {
-    // console.log(event)
-    if (parseInt(event.target.dataset.songId, 10) === currentSong.id) {
-        //console.log('correct');
+    let selectedDiv = event.target
+    if (parseInt(selectedDiv.dataset.songId, 10) === currentSong.id) {
+        selectedDiv.innerText = "YAS"
+        selectedDiv.style.backgroundColor = "#61c984"
         updateGameScore(currentGame)
         if (songCounter === 10) {
             lyricsDiv.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p>`;
             songNamesDiv.innerHTML = ''
             gameControl.style.display = "block";
         } else {
-            renderLyrics(songs[songCounter])
+            setTimeout(() => renderLyrics(songs[songCounter]), 500)
         }
-        // renderLyrics(songs[songCounter])
-        // make div green, display Correct!
     } else {
-        //console.log('wrong');
-        // console.log(event.target.style);
-        // event.target.style.borderColor = "#8B0000"
+        selectedDiv.innerText = "c'mon 😔"
+        selectedDiv.style.backgroundColor = "#f05151"
         if (songCounter === 10) {
             lyricsDiv.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p>`;
             songNamesDiv.innerHTML = ''
             gameControl.style.display = "block";
         } else {
-            renderLyrics(songs[songCounter])
+            setTimeout(() => renderLyrics(songs[songCounter]), 500)
         }
-        // renderLyrics(songs[songCounter])
-        // make div red, display Nope.
     }
 })
 
