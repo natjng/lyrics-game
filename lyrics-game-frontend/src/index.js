@@ -18,7 +18,7 @@ let loginForm = false;
 let currentUser;
 let currentGame;
 let songs;
-let songCounter = 0;
+let songCounter;
 let currentSong;
 let score;
 
@@ -155,7 +155,7 @@ songNamesDiv.addEventListener('click', (event) => {
             setTimeout(() => renderLyrics(songs[songCounter]), 500)
         }
     } else {
-        selectedDiv.innerText = "c'mon 😔"
+        selectedDiv.innerText = "c'mon now 😔"
         selectedDiv.style.backgroundColor = "#f05151"
         if (songCounter === 10) {
             lyricsDiv.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p>`;
