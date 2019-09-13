@@ -103,6 +103,7 @@ function renderGameScore(currentGame) {
 
 function startGame(user) {
     postGame(user);
+    songCounter = 0;
     renderLyrics(songs[songCounter])
 }
 
