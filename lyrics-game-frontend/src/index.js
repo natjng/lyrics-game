@@ -18,6 +18,7 @@ let loginForm = false;
 let currentUser;
 let currentGame;
 let songs;
+let gameSongs;
 let songCounter;
 let currentSong;
 let score;
@@ -102,43 +103,31 @@ function renderGameScore(currentGame) {
 }
 
 function startGame(user) {
-    postGame(user);
     songCounter = 0;
-    renderLyrics(songs[songCounter])
+    postGame(user);
+    gameSongs = shuffleSongs(songs).slice(0, 10);
+    renderLyrics(gameSongs[songCounter])
 }
 
 function renderLyrics(song) {
     lyricsDiv.innerHTML = `<h2>🎵${song.lyrics} 🎶</h2>`
     renderSongNames(song)
-    console.log(songCounter, "before increase")
     songCounter += 1;
-    console.log("curent song count", songCounter)
     currentSong = song;
 }
 
 function renderSongNames(song) {
-    // n = Math.floor(Math.random()*songs.length)
-    // console.log(`n = ${n} inside renderSongNames()`)
-
-    // need to exclude song name with lyrics already shown
-    // put lyrics's song in array
-    // get 3 songs
-    // exclude if song.id already in array
-    // add to array
+    let songOptions = songs.filter(s => s !== song);
+    let options = shuffleSongs(songOptions).slice(0, 3);
+    options.push(song);
+    let shuffledOptions = shuffleSongs(options);
     
-    let songOptions = songs 
-    //select one song, then take it out of song options, and then randomly select a song again 
-    //use filter 
-    let randomSongs = [songs[Math.floor(Math.random()*songs.length)], songs[Math.floor(Math.random()*songs.length)], songs[Math.floor(Math.random()*songs.length)]]
-    //console.log(randomSongs)
-
     songNamesDiv.innerHTML = `
-        <div id="option-a" class ="hvr-grow" data-song-id=${randomSongs[0].id}>${randomSongs[0].name}</div><br>
-        <div id="option-b" class ="hvr-grow" data-song-id=${randomSongs[1].id}>${randomSongs[1].name}</div><br>
-        <div id="option-c" class ="hvr-grow" data-song-id=${randomSongs[2].id}>${randomSongs[2].name}</div><br>
-        <div id="option-d" class ="hvr-grow" data-song-id=${song.id}>${song.name}</div><br>
+        <div class="hvr-grow" data-song-id=${shuffledOptions[0].id}>${shuffledOptions[0].name}</div><br>
+        <div class="hvr-grow" data-song-id=${shuffledOptions[1].id}>${shuffledOptions[1].name}</div><br>
+        <div class="hvr-grow" data-song-id=${shuffledOptions[2].id}>${shuffledOptions[2].name}</div><br>
+        <div class="hvr-grow" data-song-id=${shuffledOptions[3].id}>${shuffledOptions[3].name}</div><br>
         `
-    //console.log(`answer: ${song.name}`);
 }
 
 songNamesDiv.addEventListener('click', (event) => {
@@ -188,24 +177,23 @@ function updateGameScore(currentGame) {
         })
 }
 
+function shuffleSongs(songs) {
+    let m = songs.length, t, i;
+    while (m) {
+        i = Math.floor(Math.random() * m--);
+        t = songs[m];
+        songs[m] = songs[i];
+        songs[i] = t;
+    }
+    return songs;
+}
+
 getSongs();
 
-// songs = array of 10 songs
-// songs.indexOf(currentSong)
-// render random song
-// n = Math.floor(Math.random()*songs.length)
-// console.log(`n = ${n} song lyrics`)
-// renderLyrics(songs[n])
 
-// 10 rounds
-// need to randomize lyrics and names
-// cant repeat lyrics or names
 // save game score in variable
 // patch request game score after game ends
 // add serializers
-
-// getSongs() when js loads
-// startGame > 10 random lyrics > renderLyrics
 
 // let interval = setInterval(renderLyrics, 5000);
 // if (songCounter ===  10) {
