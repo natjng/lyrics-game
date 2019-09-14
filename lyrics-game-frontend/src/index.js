@@ -141,7 +141,7 @@ songNamesDiv.addEventListener('click', (event) => {
             songNamesDiv.innerHTML = ''
             gameControl.style.display = "block";
         } else {
-            setTimeout(() => renderLyrics(songs[songCounter]), 500)
+            setTimeout(() => renderLyrics(gameSongs[songCounter]), 500)
         }
     } else {
         selectedDiv.innerText = "c'mon now 😔"
@@ -151,7 +151,7 @@ songNamesDiv.addEventListener('click', (event) => {
             songNamesDiv.innerHTML = ''
             gameControl.style.display = "block";
         } else {
-            setTimeout(() => renderLyrics(songs[songCounter]), 500)
+            setTimeout(() => renderLyrics(gameSongs[songCounter]), 500)
         }
     }
 })
