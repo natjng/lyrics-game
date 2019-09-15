@@ -67,6 +67,12 @@ function renderUser(user) {
     p.innerText = `Welcome, ${user.attributes.username}!`
     userDetails.append(p) 
     gameControl.style.display = "block";
+    if (currentUser.attributes.highest_score) {
+        let highScoreDiv = document.createElement('div');
+        highScoreDiv.setAttribute('class', 'high-score');
+        highScoreDiv.innerHTML = `<h3>Your High Score: ${currentUser.attributes.highest_score}</h3>`
+        userDetails.append(highScoreDiv);
+    }
 }
 
 startBtn.addEventListener('click', (event) => {
