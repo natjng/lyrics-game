@@ -93,11 +93,10 @@ function postGame(user) {
     fetch(GAMES_URL, configObj)
         .then(res => res.json())
         .then(game => {
-            console.log("Game", game)
             currentGame = game.data;
             console.log("currentGame", currentGame)
-            score = currentGame.attributes.score;
-            console.log('score:', score);
+            // score = currentGame.attributes.score;
+            // console.log('score:', score);
             renderGameScore(currentGame);
         })
 }
@@ -140,25 +139,25 @@ songNamesDiv.addEventListener('click', (event) => {
         selectedDiv.innerText = "🎉YAS"
         selectedDiv.style.backgroundColor = "#61c984"
         updateGameScore(currentGame)
-        if (songCounter === 10) {
-            lyricsDiv.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p>`;
-            songNamesDiv.innerHTML = ''
-            gameControl.style.display = "block";
-        } else {
-            setTimeout(() => renderLyrics(gameSongs[songCounter]), 500)
-        }
+        checkGameOver()
     } else {
         selectedDiv.innerText = "c'mon now 😔"
         selectedDiv.style.backgroundColor = "#f05151"
-        if (songCounter === 10) {
+        checkGameOver()
+    }
+})
+
+function checkGameOver() {
+    if (songCounter === 10) {
+        setTimeout( () => {
             lyricsDiv.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p>`;
             songNamesDiv.innerHTML = ''
             gameControl.style.display = "block";
-        } else {
-            setTimeout(() => renderLyrics(gameSongs[songCounter]), 500)
-        }
+        }, 500)
+    } else {
+        setTimeout( () => renderLyrics(gameSongs[songCounter]), 500)
     }
-})
+}
 
 function updateGameScore(currentGame) {
     let newScore = currentGame.attributes.score += 1
