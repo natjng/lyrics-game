@@ -140,7 +140,9 @@ function renderSongNames(song) {
     })
 }
 
-songNamesDiv.addEventListener('click', (event) => {
+songNamesDiv.addEventListener('click', handleOptions)
+
+function handleOptions (event) {
     let selectedDiv = event.target
     if (parseInt(selectedDiv.dataset.songId, 10) === parseInt(currentSong.id, 10)) {
         selectedDiv.innerText = "🎉YAS"
@@ -152,7 +154,7 @@ songNamesDiv.addEventListener('click', (event) => {
         selectedDiv.style.backgroundColor = "#f05151"
         checkGameOver()
     }
-})
+}
 
 function checkGameOver() {
     if (songCounter === 10) {
