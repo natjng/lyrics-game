@@ -4,7 +4,6 @@ const USERS_URL = `${BASE_URL}/users`
 const GAMES_URL = `${BASE_URL}/games`
 const main = document.querySelector('main')
 const welcome = document.querySelector('.welcome')
-const loginBtn = document.querySelector('#login')
 const loginContainer = document.querySelector('.login-container')
 const submitBtn = document.querySelector('.submit')
 const userDetails = document.querySelector('.user-details')
@@ -23,20 +22,8 @@ let songCounter;
 let currentSong;
 let score;
 
-loginContainer.style.display = 'none';
+lyricsDiv.style.display = 'none';
 gameControl.style.display = "none";
-
-loginBtn.addEventListener('click', toggleLoginForm)
-
-function toggleLoginForm() {
-    loginForm = !loginForm
-    if (loginForm) {
-        loginContainer.style.display = 'block';
-        loginBtn.style.display = 'none';
-    } else {
-        loginContainer.style.display = 'none';
-    }
-}
 
 loginContainer.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -71,7 +58,7 @@ function renderUser(user) {
     if (currentUser.attributes.highest_score) {
         let highScoreDiv = document.createElement('div');
         highScoreDiv.setAttribute('class', 'high-score');
-        highScoreDiv.innerHTML = `<h3>Your High Score: ${currentUser.attributes.highest_score}</h3>`
+        highScoreDiv.innerHTML = `<p>Your High Score:</p> <h2>🏆 ${currentUser.attributes.highest_score}</h2>`
         userDetails.append(highScoreDiv);
     }
 }
@@ -120,7 +107,8 @@ function startGame(user) {
 }
 
 function renderLyrics(song) {
-    lyricsDiv.innerHTML = `<h2>"${song.attributes.lyrics}"</h2>`
+    lyricsDiv.style.display = 'inline-block';
+    lyricsDiv.innerHTML = `<h1>${song.attributes.lyrics}</h1>`
     renderSongNames(song)
     songCounter += 1;
     currentSong = song;
@@ -131,11 +119,11 @@ function renderSongNames(song) {
     let options = shuffleSongs(songOptions).slice(0, 3);
     options.push(song);
     let shuffledOptions = shuffleSongs(options);
-    songNamesDiv.style.backgroundColor = "#ffffff00"
+    songNamesDiv.style.backgroundColor = ''
     songNamesDiv.innerHTML = ''
     shuffledOptions.forEach(option => {
         songNamesDiv.innerHTML += `
-        <div class="hvr-grow" data-song-id=${option.id}>${option.attributes.name}</div><br>
+        <div class="option hvr-grow" data-song-id=${option.id}>${option.attributes.name}</div><br>
         `
     })
 }
@@ -146,12 +134,12 @@ function handleOptions (event) {
     let selectedDiv = event.target
     if (parseInt(selectedDiv.dataset.songId, 10) === parseInt(currentSong.id, 10)) {
         selectedDiv.innerText = "🎉YAS"
-        selectedDiv.style.backgroundColor = "#61c984"
+        selectedDiv.style.backgroundColor = "#479679"
         updateGameScore(currentGame)
         checkGameOver()
     } else {
         selectedDiv.innerText = "c'mon now 😔"
-        selectedDiv.style.backgroundColor = "#f05151"
+        selectedDiv.style.backgroundColor = "#e04a4a"
         checkGameOver()
     }
 }
@@ -159,7 +147,7 @@ function handleOptions (event) {
 function checkGameOver() {
     if (songCounter === 10) {
         setTimeout( () => {
-            lyricsDiv.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p>`;
+            lyricsDiv.innerHTML = `<h1>End Game.</h1><h3>🎵I wanna be your endgame... 🎵</h3>`;
             songNamesDiv.innerHTML = ''
             gameControl.style.display = "block";
             postUser(currentUser.attributes.username)
@@ -201,8 +189,3 @@ function shuffleSongs(songs) {
 }
 
 getSongs();
-
-
-// save game score in variable
-// patch request game score after game ends
-// refactor, put things in fns
