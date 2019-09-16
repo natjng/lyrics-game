@@ -51,9 +51,9 @@ function postUser(username) {
 
 function renderUser(user) {
     userDetails.innerHTML = ''
-    let p = document.createElement('p')
-    p.innerText = `Welcome, ${user.attributes.username}!`
-    userDetails.append(p) 
+    let h3 = document.createElement('h3')
+    h3.innerText = `💿 ${user.attributes.username}`
+    userDetails.append(h3) 
     gameControl.style.display = "block";
     if (currentUser.attributes.highest_score) {
         let highScoreDiv = document.createElement('div');
