@@ -16,7 +16,6 @@ const songNamesDiv = document.querySelector('.song-names')
 const scoreDiv = document.querySelector('.score')
 let loginForm = false;
 let currentUser;
-let currentUserGames;
 let currentGame;
 let songs;
 let gameSongs;
@@ -24,18 +23,20 @@ let songCounter;
 let currentSong;
 let score;
 
-// loginContainer.style.display = 'none';
+loginContainer.style.display = 'none';
 gameControl.style.display = "none";
 
-loginBtn.addEventListener('click', () => {
+loginBtn.addEventListener('click', toggleLoginForm)
+
+function toggleLoginForm() {
     loginForm = !loginForm
     if (loginForm) {
         loginContainer.style.display = 'block';
-        welcome.style.display = 'none';
+        loginBtn.style.display = 'none';
     } else {
         loginContainer.style.display = 'none';
     }
-})
+}
 
 loginContainer.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -55,7 +56,6 @@ function postUser(event) {
         .then(res => res.json())
         .then(json => {
             currentUser = json.data;
-            currentUserGames = json.included;
             renderUser(currentUser);
             loginContainer.style.display = 'none';
             welcome.style.display = 'none';
@@ -130,13 +130,13 @@ function renderSongNames(song) {
     let options = shuffleSongs(songOptions).slice(0, 3);
     options.push(song);
     let shuffledOptions = shuffleSongs(options);
-    
-    songNamesDiv.innerHTML = `
-        <div class="hvr-grow" data-song-id=${shuffledOptions[0].id}>${shuffledOptions[0].attributes.name}</div><br>
-        <div class="hvr-grow" data-song-id=${shuffledOptions[1].id}>${shuffledOptions[1].attributes.name}</div><br>
-        <div class="hvr-grow" data-song-id=${shuffledOptions[2].id}>${shuffledOptions[2].attributes.name}</div><br>
-        <div class="hvr-grow" data-song-id=${shuffledOptions[3].id}>${shuffledOptions[3].attributes.name}</div><br>
+    songNamesDiv.style.backgroundColor = "#ffffff00"
+    songNamesDiv.innerHTML = ''
+    shuffledOptions.forEach(option => {
+        songNamesDiv.innerHTML += `
+        <div class="hvr-grow" data-song-id=${option.id}>${option.attributes.name}</div><br>
         `
+    })
 }
 
 songNamesDiv.addEventListener('click', (event) => {
@@ -201,7 +201,6 @@ getSongs();
 
 // save game score in variable
 // patch request game score after game ends
-// add serializers
 // refactor, put things in fns
 
 // let interval = setInterval(renderLyrics, 5000);
