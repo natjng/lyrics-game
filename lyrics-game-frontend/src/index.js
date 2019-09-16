@@ -58,7 +58,7 @@ function renderUser(user) {
     if (currentUser.attributes.highest_score) {
         let highScoreDiv = document.createElement('div');
         highScoreDiv.setAttribute('class', 'high-score');
-        highScoreDiv.innerHTML = `<p>Your High Score:</p> <h2>🏆 ${currentUser.attributes.highest_score}</h2>`
+        highScoreDiv.innerHTML = `<p>Your High Score</p><h2>🏆 ${currentUser.attributes.highest_score}</h2>`
         userDetails.append(highScoreDiv);
     }
 }
