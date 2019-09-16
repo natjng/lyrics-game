@@ -40,17 +40,17 @@ function toggleLoginForm() {
 
 loginContainer.addEventListener('submit', (event) => {
     event.preventDefault();
-    postUser(event);
+    postUser(event.target.username.value);
 })
 
-function postUser(event) {
+function postUser(username) {
     let configObj = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json"
         },
-        body: JSON.stringify({username: event.target.username.value})
+        body: JSON.stringify({username})
     }
     fetch(USERS_URL, configObj)
         .then(res => res.json())
@@ -63,6 +63,7 @@ function postUser(event) {
 }
 
 function renderUser(user) {
+    userDetails.innerHTML = ''
     let p = document.createElement('p')
     p.innerText = `Welcome, ${user.attributes.username}!`
     userDetails.append(p) 
@@ -159,6 +160,7 @@ function checkGameOver() {
             lyricsDiv.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p>`;
             songNamesDiv.innerHTML = ''
             gameControl.style.display = "block";
+            postUser(currentUser.attributes.username)
         }, 500)
     } else {
         setTimeout( () => renderLyrics(gameSongs[songCounter]), 500)
@@ -202,17 +204,3 @@ getSongs();
 // save game score in variable
 // patch request game score after game ends
 // refactor, put things in fns
-
-// let interval = setInterval(renderLyrics, 5000);
-// if (songCounter ===  10) {
-//      alert("GAME OVER");
-//      document.location.reload();
-//      clearInterval(interval);
-// }
-
-// endGame(currentGame) {
-//     lyricsDiv.innerHTML = `<h2>End Game.</h2><p>🎵I wanna be your endgame... 🎵</p>`;
-//             songNamesDiv.innerHTML = ''
-//             gameControl.style.display = "block";
-//             updateGameScore(currentGame) <-- need to update rest of logic to only render optimistically
-// }
