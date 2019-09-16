@@ -21,6 +21,8 @@ let gameSongs;
 let songCounter;
 let currentSong;
 let score;
+// let userGames;
+// if I wanted all user's games
 
 lyricsDiv.style.display = 'none';
 gameControl.style.display = "none";
@@ -46,6 +48,8 @@ function postUser(username) {
             renderUser(currentUser);
             loginContainer.style.display = 'none';
             welcome.style.display = 'none';
+            // userGames = json.included;
+            // if I wanted all user's games
         })
 }
 
