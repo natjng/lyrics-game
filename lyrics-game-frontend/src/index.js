@@ -59,10 +59,11 @@ function renderUser(user) {
     h3.innerText = `💿 ${user.attributes.username}`
     userDetails.append(h3) 
     gameControl.style.display = "block";
-    if (currentUser.attributes.highest_score) {
+    if (currentUser.attributes.high_score) {
+        let highScoreDate = new Date(user.attributes.high_score_game.created_at)
         let highScoreDiv = document.createElement('div');
         highScoreDiv.setAttribute('class', 'high-score');
-        highScoreDiv.innerHTML = `<p>Your High Score</p><h2>🏆 ${currentUser.attributes.highest_score}</h2>`
+        highScoreDiv.innerHTML = `<p>Your High Score</p><h2>🏆 ${currentUser.attributes.high_score}</h2><p>Game played on ${highScoreDate.toLocaleDateString()}</p>`
         userDetails.append(highScoreDiv);
     }
 }
