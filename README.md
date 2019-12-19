@@ -1,8 +1,10 @@
 # Name that Song (Lyrics Game)
 
-Name that Song is a lyrics game made with a JavaScript, CSS, and HTML frontend and a Rails API backend.
+Name that Song is a lyrics game made with a plain JavaScript, custom CSS, and HTML frontend and a Rails backend API.
 
 Users can enter a username to start playing. Random lyrics from the database are selected for each game. Users must match the song title to the lyrics to receive a point. When logged in, a user's high score is displayed and updates when a new high score is achieved.
+
+Here's a [demo video](https://youtu.be/C3CV73L0hrs).
 
 ## Installation
 
