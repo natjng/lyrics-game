@@ -8,6 +8,12 @@ Here's a [demo video](https://youtu.be/C3CV73L0hrs).
 
 ![Lyrics Game welcome](https://raw.githubusercontent.com/natjng/lyrics-game/25759fdfef731dc30e8e4f0f1d776d3cc97f284b/Lyrics%20Game%20welcome.png)
 
+![Lyrics Game round](https://raw.githubusercontent.com/natjng/lyrics-game/master/Lyrics%20Game%20round.png)
+
+![Lyrics Game correct selection](https://raw.githubusercontent.com/natjng/lyrics-game/master/Lyrics%20Game%20correct%20selection.png)
+
+![Lyrics Game end](https://raw.githubusercontent.com/natjng/lyrics-game/master/Lyrics%20Game%20end.png)
+
 ## Installation
 
 Clone repository. 
