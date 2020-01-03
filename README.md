@@ -6,7 +6,7 @@ Users can enter a username to start playing. Random lyrics from the database are
 
 Here's a [demo video](https://youtu.be/C3CV73L0hrs).
 
-![Lyrics Game welcome](https://photos.app.goo.gl/zi1oyEYCXQ1GfzEB6)
+![Lyrics Game welcome](https://raw.githubusercontent.com/natjng/lyrics-game/25759fdfef731dc30e8e4f0f1d776d3cc97f284b/Lyrics%20Game%20welcome.png)
 
 ## Installation
 
